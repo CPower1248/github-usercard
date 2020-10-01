@@ -1,9 +1,21 @@
+import axios from 'axios'
+console.log(`This is axios:`, axios)
+
+const entryPoint = document.querySelector(".card")
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-
+axios.get("https://api.github.com/users/CPower1248")
+  .then(res => {
+    console.log("Here is the future data", res)
+    console.log("Here is the RESPONSE BODY", res.data)
+  })
+  .catch(err => {
+    console.log(err)
+  })
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -49,6 +61,51 @@ const followersArray = [];
       </div>
     </div>
 */
+
+const cardCreator = (dataObj) => {
+  const cardDiv = document.createElement("div")
+  const img = document.createElement("img")
+  const cardInfoDiv = document.createElement("div")
+  const nameH3 = document.createElement("h3")
+  const usernameP = document.createElement("p")
+  const locP = document.createElement("p")
+  const profileP = document.createElement("p")
+  const pageA = document.createElement("a")
+  const followersP = document.createElement("p")
+  const followingP = document.createElement("p")
+  const bioP = document.createElement("p")
+
+  cardDiv.classList.add("card")
+  cardInfoDiv.classList.add("card-info")
+  nameH3.classList.add("name")
+  usernameP.classList.add("username")
+
+  img.src = dataObj.avatar_url;
+  pageA.href = dataObj.html_url;
+
+  nameH3.textContent = dataObj.name;
+  usernameP.textContent = dataObj.login;
+  locP.textContent = `Location: ${dataObj.location}`;
+  profileP.textContent = "Profile: ";
+  pageA.textContent = dataObj.href_url;
+  followersP.textContent = `Followers: ${dataObj.followers}`;
+  followingP.textContent = `Following: ${dataObj.following}`;
+  bioP.textContent = `Bio: ${dataObj.bio}`;
+
+  cardDiv.appendChild(img)
+  cardDiv.appendChild(cardInfoDiv)
+  cardInfoDiv.appendChild(nameH3)
+  cardInfoDiv.appendChild(usernameP)
+  cardInfoDiv.appendChild(locP)
+  cardInfoDiv.appendChild(profileP)
+  profileP.appendChild(pageA)
+  cardInfoDiv.appendChild(followersP)
+  cardInfoDiv.appendChild(followingP)
+  cardInfoDiv.appendChild(bioP)
+
+  return cardDiv
+}
+
 
 /*
   List of LS Instructors Github username's:
