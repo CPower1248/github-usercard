@@ -1,7 +1,7 @@
 import axios from 'axios'
 console.log(`This is axios:`, axios)
 
-const entryPoint = document.querySelector(".card")
+const entryPoint = document.querySelector(".cards")
 
 /*
   STEP 1: using axios, send a GET request to the following URL
@@ -12,6 +12,13 @@ axios.get("https://api.github.com/users/CPower1248")
   .then(res => {
     console.log("Here is the future data", res)
     console.log("Here is the RESPONSE BODY", res.data)
+    entryPoint.appendChild(cardCreator(res.data))
+    followersArray.forEach(item => {
+      axios.get(`https://api.github.com/users/${item}`)
+      .then(res2 => {
+        entryPoint.appendChild(cardCreator(res2.data))
+      })
+    })
   })
   .catch(err => {
     console.log(err)
@@ -40,7 +47,7 @@ axios.get("https://api.github.com/users/CPower1248")
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ["BWSIEVERT", "thecodediver", "juancaruizc", "Criscosmoes", "bigknell"];
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -98,10 +105,10 @@ const cardCreator = (dataObj) => {
   cardInfoDiv.appendChild(usernameP)
   cardInfoDiv.appendChild(locP)
   cardInfoDiv.appendChild(profileP)
-  profileP.appendChild(pageA)
   cardInfoDiv.appendChild(followersP)
   cardInfoDiv.appendChild(followingP)
   cardInfoDiv.appendChild(bioP)
+  profileP.appendChild(pageA)
 
   return cardDiv
 }
